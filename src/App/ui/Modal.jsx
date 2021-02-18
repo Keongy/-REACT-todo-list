@@ -1,26 +1,22 @@
-import React, { useEffect } from 'react'
+// import React, { useEffect } from 'react'
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
 
-export function Modal({ onClose, item, edit }) {
+export function Modal({ editTodo, onClose, oldTodo }) {
   const [todo, setTodo] = useState('')
 
+
   useEffect(() => {
-    setTodo(item)
-  }, [item])
+    setTodo(oldTodo.text)
+  }, [oldTodo])
 
 
-  const handleChange = (e) => {
-    setTodo(e.target.value)
-  }
-
-  const editTodo = (e) => {
+  const submitTodo = (e) => {
     e.preventDefault()
-    if (todo.length) {
-      edit(todo)
-      setTodo('')
-    }
+    editTodo(todo)
+    setTodo('')
   }
 
 
@@ -35,10 +31,10 @@ export function Modal({ onClose, item, edit }) {
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-body">
-              <form className="form-inline justify-content-between" onSubmit={editTodo}>
-                <input type="text" className="form-control" value={todo} required onChange={handleChange} />
+              <form className="form-inline justify-content-between" onSubmit={submitTodo}>
+                <input type="text" className="form-control" value={todo} required onChange={e => setTodo(e.target.value)} />
                 <div>
-                  <button type="button" className="btn btn-primary" onClick={editTodo} >Save changes</button>
+                  <button type="button" className="btn btn-primary" onClick={submitTodo} >Save changes</button>
                   <button type="button" className="close ml-3" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" onClick={onClose} >&times;</span>
                   </button>

@@ -1,53 +1,82 @@
 import React from 'react'
-import { useState } from 'react';
-import { TodoForm } from './App/Input';
-import { TodoRow } from './App/TodoRow';
-import { Modal } from './App/ui/Modal';
-
+import { useState } from 'react'
+import { TodoForm } from './App/Input'
+import { Todo } from './App/TodoRow'
+import { Modal } from "./App/ui/Modal";
+import './App/css/App.css'
 
 
 export function App() {
-    const [items, setItems] = useState([])
-    const [itemValue, setItemValue] = useState('')
-    const [modal, setModal] = useState(false);
+    const [todos, setTodos] = useState([])
+    const [edit, setEdit] = useState(false)
+    const [oldTodo, setOldTodo] = useState('')
+    const [index, setIndex] = useState('')
 
-    function handleDeleteItem(item) {
-        setItems(items => [...items].filter(i => i !== item))
+    const addTodo = text => {
+        const newTodos = [...todos, { text, isCompleted: false }];
+        setTodos(newTodos);
     }
 
-    function addTodo(todo) {
-        setItems(items => [...items, todo])
+    const removeTodo = index => {
+        const newTodos = [...todos]
+        newTodos.splice(index, 1)
+        setTodos(newTodos)
     }
 
-    function edit(todo) {
-        const tmp = items.indexOf(itemValue)
-        var newItems = [...items]
-        newItems.splice(tmp, 1, todo)
-        setItems(newItems)
-        setModal(false);
+    const completeTodo = index => {
+        const newTodos = [...todos]
+        newTodos[index].isCompleted = !newTodos[index].isCompleted
+        setTodos(newTodos)
     }
 
-    const showModal = function (item) {
-        setItemValue(item)
-        setModal(true);
-    };
+    const openEditModal = index => {
+        setOldTodo(todos[index])
+        setIndex(index)
+        setEdit(true)
+        console.log(index);
+    }
 
-    const hideModal = function () {
-        setModal(false);
-    };
+    const editTodo = todo => {
+        const newTodos = [...todos]
+        newTodos.splice(index, 1, {text: todo, isCompleted: false})
+        setTodos(newTodos)
+        setEdit(false)
+    }
 
 
-    return <div className="container border">
-        <div className="row justify-content-center mt-5">
-            <div className="col-4">
-                <h1 className="text-center mb-3">TodoList</h1>
-                <TodoForm addTodo={addTodo} />
-                <TodoRow items={items} deleteItem={handleDeleteItem} onShow={showModal} />
+    console.log(todos);
+
+    return <div className="container">
+        <div className="row justify-content-center">
+            <div className="col-6 wrapper mt-5 pb-3">
+                <h1 className="text-center text-white">TodoList</h1>
+                <TodoForm
+                    addTodo={addTodo}
+                />
+                <ul className="list-group">
+                    {todos.map((todo, index) => (
+                        <li
+                            key={index}
+                            className="list-group-item list-group-item-primary"
+                        >
+                            <Todo
+                                todo={todo}
+                                index={index}
+                                removeTodo={removeTodo}
+                                completeTodo={completeTodo}
+                                openEditModal={openEditModal}
+                            />
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
-        {modal && <Modal onClose={hideModal} item={itemValue} edit={edit} />}
+        {edit ?
+            <Modal
+                editTodo={editTodo}
+                oldTodo={oldTodo}
+            /> :
+            null}
     </div>
+
 }
-
-
-

@@ -1,32 +1,25 @@
+import React from 'react'
+import { DeleteIcon, EditIcon } from './ui/Icon'
+import './css/Icon.css'
+import './css/Todo.css'
 
 
-export function TodoRow({ items, deleteItem, onShow }) {
 
-    function handleDelete(item) {
-        deleteItem(item)
-    }
-
-
-    return <ul className="list-group">
-        {items.map(i =>
-            <li key={i + Math.random()} className="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <input type="checkbox" className="form-check-inline" />
-                    <span>{i}</span>
-                </div>
-                <div>
-                    <button className="btn btn-sm" onClick={() => onShow(i)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                            <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                        </svg>
-                    </button>
-                    <button className="btn btn-sm" onClick={() => handleDelete(i)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                        </svg></button>
-                </div>
-            </li>)}
-    </ul>
+export function Todo({ todo, index, removeTodo, completeTodo, openEditModal }) {
+    return <div className="d-flex justify-content-between align-items-center">
+        <form className="d-flex align-items-center mw-80">
+            <input type="checkbox" checked={todo.isCompleted} className="form-check-inline" onChange={() => completeTodo(index)} />
+            <label className="form-check-label truncate"
+                style={{ textDecoration: todo.isCompleted ? "line-through" : '' }}
+            >{todo.text}</label>
+        </form>
+        <div>
+            <button className="bg-transparent border-0 edit-icon" onClick={() => openEditModal(index)} >
+                <EditIcon />
+            </button>
+            <button className="bg-transparent border-0 delete-icon" onClick={() => removeTodo(index)} >
+                <DeleteIcon />
+            </button>
+        </div>
+    </div>
 }

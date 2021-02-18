@@ -1,24 +1,25 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useState } from 'react'
+import '../App/css/App.css'
 
 
 export function TodoForm({ addTodo }) {
-  const [todo, setTodo] = useState('')
+  const [value, setValue] = useState("")
 
-  function submitTodo(e) {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    if (todo === '') {return}
-    addTodo(todo)
-    setTodo('')
+    addTodo(value)
+    setValue('')
   }
 
-  function handleChange(e) {
-    setTodo(e.target.value)
-  }
-
-  return <form className="form-group d-flex" onSubmit={submitTodo}>
-    <input type="text" className="form-control" value={todo} onChange={handleChange} placeholder='todos...' />
-    <button className="btn btn-sm btn-primary">
-      Ajouter
+  return <form className="form-group d-flex align-items-center" onSubmit={handleSubmit}>
+    <input type="text" className="form-control" required value={value} onChange={e => setValue(e.target.value)} />
+    <button className="bg-transparent border-0">
+      <svg xmlns="http://www.w3.org/2000/svg" width='32' height='32' fill="none" viewBox="0 0 24 24" stroke="currentColor" className="icon-add">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
     </button>
+   
+
   </form>
 }

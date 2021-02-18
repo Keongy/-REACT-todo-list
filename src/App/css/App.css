@@ -1,0 +1,10 @@
+.wrapper {
+    border: 2px solid whitesmoke;
+    border-radius: 15px;
+    background-color: #464649;
+    min-height: 400px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
