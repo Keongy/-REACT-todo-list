@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
 
-export function Modal({ editTodo, onClose, oldTodo }) {
+export function Modal({ editTodo, onClose, oldTodo, closeModal }) {
   const [todo, setTodo] = useState('')
 
 
@@ -36,7 +36,7 @@ export function Modal({ editTodo, onClose, oldTodo }) {
                 <div>
                   <button type="button" className="btn btn-primary" onClick={submitTodo} >Save changes</button>
                   <button type="button" className="close ml-3" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" onClick={onClose} >&times;</span>
+                    <span aria-hidden="true" onClick={closeModal} >&times;</span>
                   </button>
                 </div>
               </form>

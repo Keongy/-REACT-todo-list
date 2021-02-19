@@ -33,7 +33,6 @@ export function App() {
         setOldTodo(todos[index])
         setIndex(index)
         setEdit(true)
-        console.log(index);
     }
 
     const editTodo = todo => {
@@ -43,8 +42,11 @@ export function App() {
         setEdit(false)
     }
 
+    const closeModal = () => {
+        setEdit(false)
+    }
+    
 
-    console.log(todos);
 
     return <div className="container">
         <div className="row justify-content-center">
@@ -57,7 +59,7 @@ export function App() {
                     {todos.map((todo, index) => (
                         <li
                             key={index}
-                            className="list-group-item list-group-item-primary"
+                            className="list-group-item list-group-item-info"
                         >
                             <Todo
                                 todo={todo}
@@ -75,6 +77,7 @@ export function App() {
             <Modal
                 editTodo={editTodo}
                 oldTodo={oldTodo}
+                closeModal={closeModal}
             /> :
             null}
     </div>
